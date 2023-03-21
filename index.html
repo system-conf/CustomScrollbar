@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* ===== Fonts ===== */
+/* Ubuntu */
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+/* Source Code Pro */
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
+
+/* =====  Global Defaults ===== */
+html {
+  font-family: Ubuntu;
+}
+
+body {
+  background-color: #28242B;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* ===== App Styling ===== */
+.info, .copy, input[type=color] {
+  cursor: pointer;
+}
+
+.arrow {
+  width: 100%;
+  height: auto;
+}
+
+header {
+  max-width: 100%;
+  border: 1px solid #C8C6D2;
+  color: #C8C6D2;
+  border-radius: 5px;
+  background-color: #131313;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h1 {
+  text-transform: uppercase;
+  word-spacing: 0.2em;
+  padding: 0 30px;
+}
+
+.info {
+  font-size: 1.5em;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border: 4px solid #C8C6D2;
+  color: #C8C6D2;
+  background-color: inherit;
+  transition: all 500ms;
+}
+
+.info:hover {
+  color: #131313;
+  background-color: #C8C6D2;
+  font-weight: bold;
+  
+}
+
+.instructions {
+  background-color: white;
+  padding: 20px;
+  width: 100%;
+  display: none;
+}
+
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: inherit;
+  width: inherit;
+  padding: 0 40px;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+div {
+  margin: 20px;
+}
+
+.scrollbarControls {
+  border: 1px solid #C8C6D2;
+  border-radius: 5px;
+  padding: 0px;
+  background-color: #283139;
+  min-width: 300px;
+  max-width: 300px;
+  color: #C8C6D2;
+}
+
+.scrollbarControls>ul {
+  list-style: outside none none;
+  margin: 0;
+  padding: 0;
+}
+
+.scrollbarControls>h2 {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.copySection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.copy {
+  font-size: 2em;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  transition: all 500ms;
+}
+
+.copy:hover {
+  color: white;
+  background-color: #BF9ACA;
+}
+
+.scrollbarControls label {
+  font-size: 1em;
+  text-align: right;
+  display: block;
+  width: 100%;
+}
+
+.scrollbarControls>ul>li {
+  border-bottom: 2px solid #C8C6D2;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrollbarControls>ul>li:first-child {
+  border-top: 2px solid #C8C6D2;
+}
+
+.scrollbarControls>ul>li:last-child {
+  border-bottom: none;
+}
+
+.scrollbarControls>ul>li>div {
+  width: 50%;
+  height: fit-content;
+  display: flex;
+  margin: 0;
+  padding: 12px;
+}
+
+.scrollbarControls>ul>li>div:last-child {
+  font-size: 0.8em;
+  align-items: center;
+  justify-content: left;
+}
+
+.scrollbarControls>ul>li>div:first-child {
+  align-items: center;
+  justify-content: right;
+  font-weight: bold;
+}
+
+input {
+  height: 30px;
+  width: 50px;
+}
+
+select {
+  height: 30px;
+  width: 70px;
+}
+
+input, select {
+  border: none;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+input[type=color] {
+  border: none;
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+.scrollbarContainer {
+  overflow: scroll;
+  min-width: 500px;
+  max-width: 500px;
+  min-height: 500px;
+  max-height: 500px;
+  background-color: white;
+  padding: 40px;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+.bigger {
+  font-size: 2em;
+}
+
+.pug {
+  margin-top: 2000px;
+  width: 100%;
+  height: auto;
+}
+
+.code {
+  padding: 50px;
+  background-color: #273E47;
+  font-family: 'Source Code Pro';
+  color: white;
+  font-size: 1.2em;
+  height: fit-content;
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+              opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+              opacity: 1;
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+              opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+              opacity: 1;
+  }
+}
+
+.slide-left {
+	-webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/**
+ * ----------------------------------------
+ * animation slide-right
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+              opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+              opacity: 0;
+  }
+}
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+              opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateX(500px);
+            transform: translateX(500px);
+              opacity: 0;
+  }
+}
+
+.slide-right {
+	-webkit-animation: slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #8f54a0 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #8f54a0;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+</style>
+<body>
+    <style id="styleThumbColor"></style>
+<style id="styleTrackColor"></style>
+<style id="styleColor"></style>
+<style id="styleWidthStyle"></style>
+<style id="styleWidth"></style>
+<style id="styleBorderRadius"></style>
+<style id="styleBorder"></style>
+<header>
+  <h1>system.conf Custom Scrollbar Maker</h1>
+  <button class="info">i</button>
+</header>
+<div class="appContainer">
+  <div class="instructions slide-left">
+    <h2>Instructions</h2>
+    <p>Use the below controls to customize the browser's scrollbar and then copy the css to use in your own websites!<br><br> Note - I recommend trying out on different browsers to see how your scrollbar will be styled elsewhere.</p>
+  </div>
+  <div class="app">
+    <div class="scrollbarControls">
+      <h2>Controls</h2>
+      <ul>
+        <li>
+          <div>
+            <label for="thumbColor">Scrollbar Thumb:</label>
+          </div>
+          <div>
+            <input type="color" id="thumbColor" name="thumbColor" value="#8f54a0">
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="trackColor">Scrollbar Track:</label>
+          </div>
+          <div>
+            <input type="color" id="trackColor" name="trackColor" value="#ffffff">
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="widthStyle">Scrollbar Width Style:</label>
+          </div>
+          <div>
+            <select id="widthStyle" name="widthStyle">
+              <option value="none">None</option>
+              <option value="thin">Thin</option>
+              <option value="auto" selected="selected">Auto</option>
+            </select> (Firefox only)
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="width">Scrollbar Width:</label>
+          </div>
+          <div>
+            <input type="number" id="width" name="width" value="16"> px
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="borderRadius">Scrollbar Border Radius:</label>
+          </div>
+          <div>
+            <input type="number" id="borderRadius" name="borderRadius" value="10"> px
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="borderWidth">Scrollbar Border Width:</label>
+          </div>
+          <div>
+            <input type="number" id="borderWidth" name="borderWidth" value="3"> px
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="borderStyle">Scrollbar Border Style:</label>
+          </div>
+          <div>
+            <select id="borderStyle" name="borderStyle">
+              <option value="none">None</option>
+              <option value="dotted">Dotted</option>
+              <option value="dashed">Dashed</option>
+              <option value="solid" selected="selected">Solid</option>
+              <option value="double">Double</option>
+              <option value="groove">Groove</option>
+              <option value="ridge">Ridge</option>
+              <option value="inset">Inset</option>
+              <option value="outset">Outset</option>
+            </select>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="borderColor">Scrollbar Border Color:</label>
+          </div>
+          <div>
+            <input type="color" id="borderColor" name="borderColor" value="#ffffff">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="scrollbarContainer">
+      <h2>Scroll me...</h2>
+      <img class="arrow" src="https://images.unsplash.com/photo-1499424180600-8d243b10320a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1351&q=80">
+      <p>Sometimes, the content of an element is bigger than the element itself, but you still want people to be able to see all of it, so you set the css of the element to overflow: scroll to add a scrollbar to it.</p>
+      <p>Then, to your horror, an ugly grey scrollbar is added to your page, which totally ruins the themeing you've worked so hard on, so what can you do?</p>
+      <p>Well... It turns out that many modern browsers have pseudo element selectors that you can use to style the scrollbars on your page, and seeing as it can be a bit of a pain reloading a page again and again to see what each one does, I figured why not make a simple little pen to let you style scrollbars live in the browser, and then copy the code to your own website once you're done.</p>
+      <img class="pug" src="https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="A cute pug">
+      <p class="bigger">Hey there, don't mind me. I'm just chilling down here.</p>
+    </div>
+    <div class="code copySection">
+      <h2>Copy This Code</h2>
+      <pre id="cssCode">/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: <span class="displayWidthStyle">thin</span>;
+    scrollbar-color: <span class="displayThumbColor">blue</span> <span class="displayTrackColor">orange</span>;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: <span class="displayWidth">12</span>px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: <span class="displayTrackColor">orange</span>;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: <span class="displayThumbColor">blue</span>;
+    border-radius: <span class="displayBorderRadius">20</span>px;
+    border: <span class="displayBorderWidth">3</span>px <span class="displayBorderStyle">solid</span> <span class="displayBorderColor">orange</span>;
+  }</pre>
+      <button class="copy">Copy</button>
+    </div>
+    <div class="code" id="debugger">
+      <h2>Debugger</h2>
+      <pre id="styleChecker"></pre>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+    /* ===== Helper Functions ===== */
+function copyToClipboard (inputText) {
+  const el = document.createElement('textarea');
+  el.value = inputText;
+  el.setAttribute('readonly', '');
+  el.style.position = 'absolute';
+  el.style.left = '-9999px';
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+  
+  /* Alert the copied text */
+  alert("Copied the text: " + inputText);
+};
+
+function updateStyleChecker() {
+  
+  if (!(debug)) {
+    
+    let debuggerElement = document.getElementById('debugger');
+    
+    if (window.getComputedStyle(debuggerElement).display === "none") {
+    
+      return;
+    
+    } else {
+      
+      debuggerElement.style.display = 'none';  
+      
+    }
+       
+  }
+  
+  let styleCheckerContent = "";
+  
+  let styleElements = document.getElementsByTagName('style');
+  
+  for (let i = 0; i < styleElements.length; i++) {
+    
+    if (!(styleElements[i].id)) {
+      
+      continue;
+      
+    }
+    
+    styleCheckerContent += `id: ${styleElements[i].id}`;
+    styleCheckerContent += styleElements[i].innerHTML;
+    styleCheckerContent += '<br>';
+    
+  }
+  
+  document.getElementById('styleChecker').innerHTML = styleCheckerContent;
+   
+}
+
+function getInputValue(inputId) {
+  
+  return document.getElementById(inputId).value;
+
+}
+
+function updateDisplayCSS(className, value) {
+  
+  let elements = document.getElementsByClassName(className);
+  
+  for (let i = 0; i < elements.length; i++) {
+    
+    elements[i].innerHTML = String(value).trim();
+    
+  }
+  
+}
+
+function updateThumbColor() {
+  
+  thumbColor = getInputValue('thumbColor');
+  
+  document.getElementById('styleThumbColor').innerHTML = `
+    *::-webkit-scrollbar-thumb {
+      background-color: ${thumbColor};
+    }
+  `;
+  
+  document.getElementById('styleColor').innerHTML = `
+    * {
+      scrollbar-color: ${thumbColor} ${trackColor};
+    }
+  `;
+  
+  updateDisplayCSS('displayThumbColor', thumbColor);
+  
+  updateStyleChecker();
+  
+}
+
+function updateTrackColor() {
+  
+  trackColor = getInputValue('trackColor');
+  
+  document.getElementById('styleTrackColor').innerHTML = `
+    *::-webkit-scrollbar-track {
+      background: ${trackColor};
+    }
+  `;
+  
+  document.getElementById('styleColor').innerHTML = `
+    * {
+      scrollbar-color: ${thumbColor} ${trackColor};
+    }
+  `;
+  
+  updateDisplayCSS('displayTrackColor', trackColor);
+  
+  updateStyleChecker();
+  
+}
+
+function updateWidthStyle() {
+  
+  widthStyle = getInputValue('widthStyle');
+  
+  document.getElementById('styleWidthStyle').innerHTML = `
+    * {
+      scrollbar-width: ${widthStyle};
+    }
+  `;
+  
+  updateDisplayCSS('displayWidthStyle', widthStyle);
+  
+  updateStyleChecker();
+  
+}
+
+function updateWidth() {
+  
+  width = getInputValue('width');
+  
+  document.getElementById('styleWidth').innerHTML = `
+    *::-webkit-scrollbar {
+      width: ${width}px;
+    }
+  `;
+  
+  updateDisplayCSS('displayWidth', width);
+  
+  updateStyleChecker();
+  
+}
+
+function updateBorderRadius() {
+  
+  borderRadius = getInputValue('borderRadius');
+  
+  document.getElementById('styleBorderRadius').innerHTML = `
+    *::-webkit-scrollbar-thumb {
+      border-radius: ${borderRadius}px;
+    }
+  `;
+  
+  updateDisplayCSS('displayBorderRadius', borderRadius);
+                   
+  updateStyleChecker();
+  
+}
+
+function updateBorderWidth() {
+  
+  borderWidth = getInputValue('borderWidth');
+  
+  document.getElementById('styleBorder').innerHTML = `
+    *::-webkit-scrollbar-thumb {
+      border: ${borderWidth}px ${borderStyle} ${borderColor};
+    }
+  `;
+  
+  updateDisplayCSS('displayBorderWidth', borderWidth);
+                   
+  updateStyleChecker();
+  
+}
+
+function updateBorderStyle() {
+  
+  borderStyle = getInputValue('borderStyle');
+  
+  document.getElementById('styleBorder').innerHTML = `
+    *::-webkit-scrollbar-thumb {
+      border: ${borderWidth}px ${borderStyle} ${borderColor};
+    }
+  `;
+  
+  updateDisplayCSS('displayBorderStyle', borderStyle);
+                   
+  updateStyleChecker();
+  
+}
+
+function updateBorderColor() {
+  
+  borderColor = getInputValue('borderColor');
+  
+  document.getElementById('styleBorder').innerHTML = `
+    *::-webkit-scrollbar-thumb {
+      border: ${borderWidth}px ${borderStyle} ${borderColor};
+    }
+  `;
+  
+  updateDisplayCSS('displayBorderColor', borderColor);
+                   
+  updateStyleChecker();
+  
+}
+
+/* ===== Setup ===== */
+let debug = false;
+
+let thumbColor = getInputValue('thumbColor');
+let trackColor = getInputValue('trackColor');
+let widthStyle = getInputValue('widthStyle');
+let width = getInputValue('width');
+let borderRadius = getInputValue('borderRadius');
+let borderWidth = getInputValue('borderWidth');
+let borderStyle = getInputValue('borderStyle');
+let borderColor = getInputValue('borderColor');
+
+updateThumbColor();
+updateTrackColor();
+updateWidthStyle();
+updateWidth();
+updateBorderRadius();
+updateBorderWidth();
+updateBorderStyle();
+updateBorderColor();
+
+updateStyleChecker();
+
+/* ===== Event Listeners ===== */
+document.getElementById('thumbColor').addEventListener("change", updateThumbColor);
+document.getElementById('trackColor').addEventListener("change", updateTrackColor);
+document.getElementById('widthStyle').addEventListener("change", updateWidthStyle);
+document.getElementById('width').addEventListener("change", updateWidth);
+document.getElementById('borderRadius').addEventListener("change", updateBorderRadius);
+document.getElementById('borderWidth').addEventListener("change", updateBorderWidth);
+document.getElementById('borderStyle').addEventListener("change", updateBorderStyle);
+document.getElementById('borderColor').addEventListener("change", updateBorderColor);
+
+document.getElementsByClassName('copy')[0].addEventListener("click", function () {
+  
+  let copyText = document.getElementById('cssCode').innerText;
+  
+  copyToClipboard(copyText);
+  
+});
+
+document.getElementsByClassName('info')[0].addEventListener("click", function () {
+  
+  let instructions = document.getElementsByClassName("instructions")[0];
+  
+  if (window.getComputedStyle(instructions).display === "none") {
+    
+    instructions.style.display = "inline";
+    instructions.classList.add("slide-left");
+    instructions.classList.remove("slide-right");
+                                  
+    
+  } else {
+    
+    instructions.classList.add("slide-right");
+    instructions.classList.remove("slide-left");
+    setTimeout(function () {
+      instructions.style.display = "none";
+    }, 500);
+     
+  }
+  
+});
+</script>
+</html>
